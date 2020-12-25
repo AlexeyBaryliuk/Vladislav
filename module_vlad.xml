@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_vlad" default="compile.module.vlad">
+  <dirname property="module.vlad.basedir" file="${ant.file.module_vlad}"/>
+  
+  <property name="module.jdk.home.vlad" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.vlad" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.vlad" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.vlad" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="vlad.output.dir" value="${module.vlad.basedir}/out/production/vlad"/>
+  <property name="vlad.testoutput.dir" value="${module.vlad.basedir}/out/test/vlad"/>
+  
+  <path id="vlad.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="vlad.module.production.classpath">
+    <path refid="${module.jdk.classpath.vlad}"/>
+    <path refid="library.python_3.8_(python3.8_work)_interpreter_library.classpath"/>
+  </path>
+  
+  <path id="vlad.runtime.production.module.classpath">
+    <pathelement location="${vlad.output.dir}"/>
+    <path refid="library.python_3.8_(python3.8_work)_interpreter_library.classpath"/>
+  </path>
+  
+  <path id="vlad.module.classpath">
+    <path refid="${module.jdk.classpath.vlad}"/>
+    <pathelement location="${vlad.output.dir}"/>
+    <path refid="library.python_3.8_(python3.8_work)_interpreter_library.classpath"/>
+  </path>
+  
+  <path id="vlad.runtime.module.classpath">
+    <pathelement location="${vlad.testoutput.dir}"/>
+    <pathelement location="${vlad.output.dir}"/>
+    <path refid="library.python_3.8_(python3.8_work)_interpreter_library.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.vlad">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.vlad">
+    <patternset refid="excluded.from.module.vlad"/>
+  </patternset>
+  
+  <path id="vlad.module.sourcepath">
+    <dirset dir="${module.vlad.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.vlad" depends="compile.module.vlad.production,compile.module.vlad.tests" description="Compile module vlad"/>
+  
+  <target name="compile.module.vlad.production" depends="register.custom.compilers" description="Compile module vlad; production classes">
+    <mkdir dir="${vlad.output.dir}"/>
+    <javac2 destdir="${vlad.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.vlad}/javac">
+      <compilerarg line="${compiler.args.vlad}"/>
+      <bootclasspath refid="vlad.module.bootclasspath"/>
+      <classpath refid="vlad.module.production.classpath"/>
+      <src refid="vlad.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.vlad"/>
+    </javac2>
+    
+    <copy todir="${vlad.output.dir}">
+      <fileset dir="${module.vlad.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.vlad.tests" depends="register.custom.compilers,compile.module.vlad.production" description="compile module vlad; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.vlad" description="cleanup module">
+    <delete dir="${vlad.output.dir}"/>
+    <delete dir="${vlad.testoutput.dir}"/>
+  </target>
+</project>
