@@ -8,6 +8,7 @@ dictionary = {"Belarus": ["Brest, Gomel, Grodno, Minsk, Vitebsk, Mogilev, Belooz
                         "Reggio Calabria, Reggio, Emilia Perugia, Livorno, Ravenna, Cagliari Foggia"
                         "Rimini, Ferrara, Salerno, Sassari, Latina, Monza, Syracuse, Pescara"
                         "Giugliano in Campagna, Bergamo, Forlì, Trento, Vicenza"]}
+
 def human_answer():
     answer = str(input("Do you want to continue"))
     return (answer)
