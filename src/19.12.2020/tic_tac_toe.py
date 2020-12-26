@@ -52,7 +52,7 @@ def main(board):
             print ("draw!")
             break
     draw_board(board)
-# hello  from
+
 main(board)
 
 
